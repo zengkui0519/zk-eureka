@@ -1,0 +1,29 @@
+#应用端口
+server:
+   port: 20001
+#应用名称
+spring:
+   application:
+      name: zk-eureka-dev
+
+eureka:
+   instance:
+      hostname: localhost
+      lease-renewal-interval-in-seconds: 1      # 心跳时间，即服务续约间隔时间（默认为30s）
+      lease-expiration-duration-in-seconds: 2   # 发呆时间，即服务续约到期时间（默认为90s）
+      prefer-ip-address: true
+   client:
+      #是否向服务注册中心注册自己
+      #由于我们目前创建的应用是一个服务注册中心，而不是普通的应用，默认情况下，这个应用会向注册中心（也是它自己）注册它自己，设置为false表示禁止这种默认行为
+      register-with-eureka: false
+      #是否检索服务
+      #表示不去检索其他的服务，因为服务注册中心本身的职责就是维护服务实例，它也不需要去检索其他服务
+      fetch-registry: false
+      service-url:
+         #服务注册中心的配置内容，指定服务注册中心的位置
+         defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+   server:
+      enable-self-preservation: false # 关闭自我保护模式（默认为打开）
+      eviction-interval-timer-in-ms: 3000 #扫描失效服务的间隔时间
+
+
